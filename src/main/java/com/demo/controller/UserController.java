@@ -27,6 +27,7 @@ public class UserController {
     @PostMapping("register")
     public String register(User user) {
         loginResponse response = userService.register(user);
+       
         return "loginSuccess";
     }
 }
