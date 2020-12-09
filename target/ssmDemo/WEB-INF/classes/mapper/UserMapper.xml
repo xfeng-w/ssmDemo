@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.UserMapper">
+    <insert id="addUser" parameterType="com.demo.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user (account, password, salt, phone, created_time, updated_time, version) values
+        (#{account},#{password},#{salt},#{phone},#{createdTime},#{updatedTime},#{version});
+    </insert>
+
+    <select id="selectByAccountOrPhone" resultType="com.demo.entity.User">
+        select account, password, salt, phone, created_time, updated_time, version
+        from user where account = #{loginName} or phone = #{loginName};
+    </select>
+    <select id="selectByAccountAndPhone" resultType="com.demo.entity.User">
+        select account, password, salt, phone, created_time, updated_time, version
+        from user where account = #{account} or phone = #{phone};
+    </select>
+</mapper>
