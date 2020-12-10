@@ -19,7 +19,6 @@
     账号：<input type="text" name="loginName"><br>
     密码：<input type="password" name="password"><br>
     <input type="button" value="登录" onclick="login()">
-<%--    <input type="button" value="注册" onclick="registered()">--%>
     <input type="button" onclick="window.location.href='register.jsp';" value="注册">
 </form>
 <script type="text/javascript">
