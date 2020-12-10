@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>loginError!</h2>
+<h2>Login Error!</h2>
 </body>
 </html>

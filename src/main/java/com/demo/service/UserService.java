@@ -39,11 +39,13 @@ public class UserService {
         if (Objects.isNull(user)) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.ACCOUNT_NOT_EXIST);
+            logger.error(LoginMessage.ACCOUNT_NOT_EXIST);
             return response;
         }
         if (!Md5SaltUtils.verify(password, user.getPassword())) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.ACCOUNT_OR_PASSWORD_ERROR);
+            logger.error(LoginMessage.ACCOUNT_OR_PASSWORD_ERROR);
             return response;
         }
         return response;
@@ -61,12 +63,14 @@ public class UserService {
         if (Objects.isNull(user.getAccount()) || Objects.isNull(user.getPassword()) || Objects.isNull(user.getPhone())) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.REQUIRED_FIELDS_NOT_BE_EMPTY);
+            logger.error(LoginMessage.REQUIRED_FIELDS_NOT_BE_EMPTY);
             return response;
         }
         User existEntity = userMapper.selectByAccountAndPhone(user.getAccount(),user.getPhone());
         if (Objects.nonNull(existEntity)) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.ACCOUNT_OR_PHONE_EXIST);
+            logger.error(LoginMessage.ACCOUNT_OR_PHONE_EXIST);
             return response;
         }
         User saveEntity = new User();
