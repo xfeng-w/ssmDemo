@@ -66,7 +66,7 @@ public class UserService {
             logger.error(LoginMessage.REQUIRED_FIELDS_NOT_BE_EMPTY);
             return response;
         }
-        User existEntity = userMapper.selectByAccountAndPhone(user.getAccount(),user.getPhone());
+        User existEntity = userMapper.selectByAccountAndPhone(user.getAccount(), user.getPhone());
         if (Objects.nonNull(existEntity)) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.ACCOUNT_OR_PHONE_EXIST);
@@ -88,9 +88,19 @@ public class UserService {
         return response;
     }
 
+    /**
+     * 根据用户id查询用户
+     *
+     * @param userId
+     * @return
+     */
+    public User selectUserById(Long userId) {
+        return userMapper.selectById(userId);
+    }
+
     public static void main(String[] args) {
         String salt = Md5SaltUtils.getSalt(16);
         System.out.println(salt);
-        System.out.println(Md5SaltUtils.generateBySalt("123456",salt));
+        System.out.println(Md5SaltUtils.generateBySalt("123456", salt));
     }
 }
