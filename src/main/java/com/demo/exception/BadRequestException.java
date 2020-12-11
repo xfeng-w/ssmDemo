@@ -1,6 +1,6 @@
 package com.demo.exception;
 
-public class BadRequestException extends Exception {
+public class BadRequestException extends RuntimeException {
     private static final long serialVersionUID = -5040102560780177984L;
 
     private Integer code;
