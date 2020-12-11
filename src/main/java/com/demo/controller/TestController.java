@@ -1,6 +1,8 @@
 package com.demo.controller;
 
 import com.demo.entity.User;
+import com.demo.exception.BadRequestException;
+import com.demo.exception.ErrorCode;
 import com.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,5 +29,11 @@ public class TestController {
         user.setCreatedTime(new Date());
         user.setVersion(1);
         return userService.testAdd(user);
+    }
+
+    @ResponseBody
+    @GetMapping("exception")
+    public void exceptionTest() throws BadRequestException {
+        throw new BadRequestException(ErrorCode.INTERNAL_SYSTEM_ANOMALY);
     }
 }
