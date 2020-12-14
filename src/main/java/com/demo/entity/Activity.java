@@ -1,7 +1,5 @@
 package com.demo.entity;
 
-import com.demo.enums.Status;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -49,7 +47,7 @@ public class Activity implements Serializable {
     /**
      * 启用状态
      */
-    private Status status;
+    private Integer status;
 
     /**
      * 创建时间
@@ -122,11 +120,11 @@ public class Activity implements Serializable {
         this.lowProbability = lowProbability;
     }
 
-    public Status getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

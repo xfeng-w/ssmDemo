@@ -1,7 +1,5 @@
 package com.demo.entity;
 
-import com.demo.enums.PrizeType;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,7 +22,7 @@ public class Prize implements Serializable {
     /**
      * 奖品类型
      */
-    private PrizeType prizeType;
+    private Integer prizeType;
 
     /**
      * 奖品价值
@@ -62,11 +60,11 @@ public class Prize implements Serializable {
         this.name = name;
     }
 
-    public PrizeType getPrizeType() {
+    public Integer getPrizeType() {
         return prizeType;
     }
 
-    public void setPrizeType(PrizeType prizeType) {
+    public void setPrizeType(Integer prizeType) {
         this.prizeType = prizeType;
     }
 

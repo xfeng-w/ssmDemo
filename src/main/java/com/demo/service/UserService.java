@@ -3,7 +3,7 @@ package com.demo.service;
 import com.demo.constant.LoginMessage;
 import com.demo.dto.loginResponse;
 import com.demo.entity.User;
-import com.demo.mapper.UserMapper;
+import com.demo.dao.UserDao;
 import com.demo.util.Md5SaltUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +19,10 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    private UserMapper userMapper;
+    private UserDao userDao;
 
     public int testAdd(User user) {
-        return userMapper.addUser(user);
+        return userDao.addUser(user);
     }
 
     /**
@@ -35,7 +35,7 @@ public class UserService {
     public loginResponse login(String loginName, String password) {
         loginResponse response = new loginResponse();
         response.setSuccess(true);
-        User user = userMapper.selectByAccountOrPhone(loginName);
+        User user = userDao.selectByAccountOrPhone(loginName);
         if (Objects.isNull(user)) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.ACCOUNT_NOT_EXIST);
@@ -66,7 +66,7 @@ public class UserService {
             logger.error(LoginMessage.REQUIRED_FIELDS_NOT_BE_EMPTY);
             return response;
         }
-        User existEntity = userMapper.selectByAccountAndPhone(user.getAccount(), user.getPhone());
+        User existEntity = userDao.selectByAccountAndPhone(user.getAccount(), user.getPhone());
         if (Objects.nonNull(existEntity)) {
             response.setSuccess(false);
             response.setMessage(LoginMessage.ACCOUNT_OR_PHONE_EXIST);
@@ -84,7 +84,7 @@ public class UserService {
         saveEntity.setCreatedTime(date);
         saveEntity.setUpdatedTime(date);
         saveEntity.setVersion(1);
-        userMapper.addUser(saveEntity);
+        userDao.addUser(saveEntity);
         return response;
     }
 
@@ -95,7 +95,7 @@ public class UserService {
      * @return
      */
     public User selectUserById(Long userId) {
-        return userMapper.selectById(userId);
+        return userDao.selectById(userId);
     }
 
     public static void main(String[] args) {

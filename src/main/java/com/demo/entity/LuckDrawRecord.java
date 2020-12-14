@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 活动奖品表
+ * 抽奖记录表
  */
-public class ActivityPrize implements Serializable {
-    private static final long serialVersionUID = -3579377371548606447L;
+public class LuckDrawRecord implements Serializable {
+    private static final long serialVersionUID = -7981148342938256029L;
 
     /**
      * 主键id
@@ -20,14 +20,19 @@ public class ActivityPrize implements Serializable {
     private Long activityId;
 
     /**
+     * 是否中奖
+     */
+    private Boolean winning;
+
+    /**
      * 奖品Id
      */
     private Long prizeId;
 
     /**
-     * 中奖率
+     * 中奖时间
      */
-    private Double probability;
+    private Date winningTime;
 
     /**
      * 创建时间
@@ -43,12 +48,6 @@ public class ActivityPrize implements Serializable {
      * 版本号
      */
     private Integer version;
-
-    /**
-     * 奖品详情
-     */
-    private Prize prize;
-
 
     public Long getId() {
         return id;
@@ -66,6 +65,14 @@ public class ActivityPrize implements Serializable {
         this.activityId = activityId;
     }
 
+    public Boolean getWinning() {
+        return winning;
+    }
+
+    public void setWinning(Boolean winning) {
+        this.winning = winning;
+    }
+
     public Long getPrizeId() {
         return prizeId;
     }
@@ -74,12 +81,12 @@ public class ActivityPrize implements Serializable {
         this.prizeId = prizeId;
     }
 
-    public Double getProbability() {
-        return probability;
+    public Date getWinningTime() {
+        return winningTime;
     }
 
-    public void setProbability(Double probability) {
-        this.probability = probability;
+    public void setWinningTime(Date winningTime) {
+        this.winningTime = winningTime;
     }
 
     public Date getCreatedTime() {
@@ -104,13 +111,5 @@ public class ActivityPrize implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Prize getPrize() {
-        return prize;
-    }
-
-    public void setPrize(Prize prize) {
-        this.prize = prize;
     }
 }

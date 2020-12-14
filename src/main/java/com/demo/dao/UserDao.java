@@ -1,9 +1,9 @@
-package com.demo.mapper;
+package com.demo.dao;
 
 import com.demo.entity.User;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserMapper {
+public interface UserDao {
 
     User selectById(Long userId);
 
