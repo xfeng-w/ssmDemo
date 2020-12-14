@@ -4,5 +4,7 @@ import com.demo.entity.Activity;
 
 public interface ActivityDao {
 
-    Activity selectActivityById(Long id);
+    Activity selectById(Long id);
+
+    Activity selectByCode(String code);
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PrizeDao {
 
-    List<Prize> selectPrizeByActivityId(Long activityId);
+    List<Prize> selectByActivityId(Long activityId);
 }

@@ -3,8 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.dao.ActivityDao">
-    <select id="selectActivityById" resultType="com.demo.entity.Activity">
+    <select id="selectById" resultType="com.demo.entity.Activity">
        select id,
+              code,
               name,
               start_time,
               end_time,
@@ -17,5 +18,21 @@
               version
        from activity
        where id = #{id}
+    </select>
+    <select id="selectByCode" resultType="com.demo.entity.Activity">
+       select id,
+              code,
+              name,
+              start_time,
+              end_time,
+              high_probability,
+              medium_probability,
+              low_probability,
+              status,
+              created_time,
+              updated_time,
+              version
+       from activity
+       where code = #{code}
     </select>
 </mapper>

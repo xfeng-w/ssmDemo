@@ -15,6 +15,11 @@ public class Activity implements Serializable {
     private Long id;
 
     /**
+     * 活动code
+     */
+    private String code;
+
+    /**
      * 活动名称
      */
     private String name;
@@ -70,6 +75,14 @@ public class Activity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

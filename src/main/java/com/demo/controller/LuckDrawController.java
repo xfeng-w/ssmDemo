@@ -20,7 +20,7 @@ public class LuckDrawController {
 
     @ResponseBody
     @GetMapping()
-    public LuckDrawVO luckDraw(Long userId, Long activityId) {
-        return luckDrawService.lottery(userId, activityId);
+    public LuckDrawVO luckDraw(Long userId, String activityCode) {
+        return luckDrawService.lottery(userId, activityCode);
     }
 }

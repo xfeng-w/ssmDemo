@@ -8,6 +8,7 @@ import com.demo.util.Md5SaltUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -94,6 +95,7 @@ public class UserService {
      * @param userId
      * @return
      */
+    @Cacheable(value = "users", key = "#userId", unless = "#result eq null")
     public User selectUserById(Long userId) {
         return userDao.selectById(userId);
     }

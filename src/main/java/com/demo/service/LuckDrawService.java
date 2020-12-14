@@ -22,26 +22,26 @@ public class LuckDrawService {
     private UserService userService;
 
     @Autowired
-    private ActivityDao activityDao;
+    private ActivityService activityService;
 
     @Autowired
-    private ActivityPrizeDao activityPrizeDao;
+    private ActivityPrizeService activityPrizeService;
 
     @Autowired
-    private UserLuckDrawNumberDao userLuckDrawNumberDao;
+    private UserLuckDrawNumberService userLuckDrawNumberService;
 
     @Autowired
-    private LuckDrawRecordDao luckDrawRecordDao;
+    private LuckDrawRecordService luckDrawRecordService;
 
     @Autowired
-    private PrizeDao prizeDao;
+    private PrizeService prizeService;
 
-    public LuckDrawVO lottery(Long userId, Long activityId) {
+    public LuckDrawVO lottery(Long userId, String activityCode) {
         User user = userService.selectUserById(userId);
         if (Objects.isNull(user)) {
             throw new BadRequestException(ErrorCode.USER_NOT_EXIST);
         }
-        Activity activity = activityDao.selectActivityById(activityId);
+        Activity activity = activityService.selectByCode(activityCode);
         if (Objects.isNull(activity)) {
             throw new BadRequestException(ErrorCode.ACTIVITY_NOT_EXIST);
         }
@@ -59,14 +59,14 @@ public class LuckDrawService {
             throw new BadRequestException(ErrorCode.ACTIVITY_IS_END);
         }
         // 查询用户的剩余抽奖次数
-        UserLuckDrawNumber userLuckDrawNumber = userLuckDrawNumberDao.selectByUserId(userId, new Date());
+        UserLuckDrawNumber userLuckDrawNumber = userLuckDrawNumberService.selectByUserId(userId, new Date());
         if (Objects.isNull(userLuckDrawNumber) || userLuckDrawNumber.getLuckDrawNumber() < 1) {
             // 用户没有剩余抽奖次数了
             throw new BadRequestException(ErrorCode.USER_HAVE_NO_LUCK_DRAW_NUMBER);
         }
         // 保存抽奖记录
         LuckDrawRecord luckDrawRecord = new LuckDrawRecord();
-        luckDrawRecord.setActivityId(activityId);
+        luckDrawRecord.setActivityId(activity.getId());
         Date recordDate = new Date();
         luckDrawRecord.setCreatedTime(recordDate);
         luckDrawRecord.setUpdatedTime(recordDate);
@@ -83,9 +83,9 @@ public class LuckDrawService {
         LuckDrawVO result = new LuckDrawVO();
         if (randNumber <= probability * 100) {
             // 查询活动关联的奖品
-            List<ActivityPrize> activityPrizes = activityPrizeDao.selectActivityPrizeByActivityId(activityId);
+            List<ActivityPrize> activityPrizes = activityPrizeService.selectByActivityId(activity.getId());
             // 查询活动下的奖品
-            List<Prize> prizes = prizeDao.selectPrizeByActivityId(activityId);
+            List<Prize> prizes = prizeService.selectByActivityId(activity.getId());
             Map<Long, Prize> prizeMap = prizes.stream().collect(Collectors.toMap(Prize::getId, Function.identity()));
             for (ActivityPrize activityPrize : activityPrizes) {
                 activityPrize.setPrize(prizeMap.get(activityPrize.getPrizeId()));
@@ -100,7 +100,7 @@ public class LuckDrawService {
         } else {
             result.setWinning(false);
         }
-        luckDrawRecordDao.add(luckDrawRecord);
+        luckDrawRecordService.add(luckDrawRecord);
         // todo 抽奖次数-1
         return result;
     }
@@ -140,7 +140,7 @@ public class LuckDrawService {
      * @return
      */
     private Double getProbability(Activity activity, Long userId) {
-        List<LuckDrawRecord> luckDrawRecords = luckDrawRecordDao.listByUserId(userId);
+        List<LuckDrawRecord> luckDrawRecords = luckDrawRecordService.listByUserId(userId);
         boolean highProbability = false;
         boolean lowProbability = false;
         // 判断是否满足高概率
