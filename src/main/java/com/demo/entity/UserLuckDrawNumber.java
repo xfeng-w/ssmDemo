@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 活动奖品表
+ * 用户剩余抽奖次数奖
  */
-public class ActivityPrize implements Serializable {
-    private static final long serialVersionUID = -3579377371548606447L;
+public class UserLuckDrawNumber implements Serializable {
+
+    private static final long serialVersionUID = 1036573774660308188L;
 
     /**
      * 主键id
@@ -15,19 +16,19 @@ public class ActivityPrize implements Serializable {
     private Long id;
 
     /**
-     * 活动id
+     * 用户id
      */
-    private Long activityId;
+    private Long userId;
 
     /**
-     * 奖品Id
+     * 抽奖次数
      */
-    private Long prizeId;
+    private Integer luckDrawNumber;
 
     /**
-     * 中奖率%
+     * 抽奖日期
      */
-    private Double probability;
+    private Date luckDrawDate;
 
     /**
      * 创建时间
@@ -44,12 +45,6 @@ public class ActivityPrize implements Serializable {
      */
     private Integer version;
 
-    /**
-     * 奖品详情
-     */
-    private Prize prize;
-
-
     public Long getId() {
         return id;
     }
@@ -58,28 +53,28 @@ public class ActivityPrize implements Serializable {
         this.id = id;
     }
 
-    public Long getActivityId() {
-        return activityId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setActivityId(Long activityId) {
-        this.activityId = activityId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getPrizeId() {
-        return prizeId;
+    public Integer getLuckDrawNumber() {
+        return luckDrawNumber;
     }
 
-    public void setPrizeId(Long prizeId) {
-        this.prizeId = prizeId;
+    public void setLuckDrawNumber(Integer luckDrawNumber) {
+        this.luckDrawNumber = luckDrawNumber;
     }
 
-    public Double getProbability() {
-        return probability;
+    public Date getLuckDrawDate() {
+        return luckDrawDate;
     }
 
-    public void setProbability(Double probability) {
-        this.probability = probability;
+    public void setLuckDrawDate(Date luckDrawDate) {
+        this.luckDrawDate = luckDrawDate;
     }
 
     public Date getCreatedTime() {
@@ -104,13 +99,5 @@ public class ActivityPrize implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Prize getPrize() {
-        return prize;
-    }
-
-    public void setPrize(Prize prize) {
-        this.prize = prize;
     }
 }

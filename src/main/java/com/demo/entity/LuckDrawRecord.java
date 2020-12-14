@@ -15,14 +15,14 @@ public class LuckDrawRecord implements Serializable {
     private Long id;
 
     /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
      * 活动id
      */
     private Long activityId;
-
-    /**
-     * 是否中奖
-     */
-    private Boolean winning;
 
     /**
      * 奖品Id
@@ -32,7 +32,7 @@ public class LuckDrawRecord implements Serializable {
     /**
      * 中奖时间
      */
-    private Date winningTime;
+    private Date luckDrawTime;
 
     /**
      * 创建时间
@@ -48,6 +48,41 @@ public class LuckDrawRecord implements Serializable {
      * 版本号
      */
     private Integer version;
+
+    /**
+     * 奖品类型
+     */
+    private Integer prizeType;
+
+    /**
+     * 奖品价值
+     */
+    private Double prizeNum;
+
+
+    public Integer getPrizeType() {
+        return prizeType;
+    }
+
+    public void setPrizeType(Integer prizeType) {
+        this.prizeType = prizeType;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Double getPrizeNum() {
+        return prizeNum;
+    }
+
+    public void setPrizeNum(Double prizeNum) {
+        this.prizeNum = prizeNum;
+    }
 
     public Long getId() {
         return id;
@@ -65,14 +100,6 @@ public class LuckDrawRecord implements Serializable {
         this.activityId = activityId;
     }
 
-    public Boolean getWinning() {
-        return winning;
-    }
-
-    public void setWinning(Boolean winning) {
-        this.winning = winning;
-    }
-
     public Long getPrizeId() {
         return prizeId;
     }
@@ -81,12 +108,12 @@ public class LuckDrawRecord implements Serializable {
         this.prizeId = prizeId;
     }
 
-    public Date getWinningTime() {
-        return winningTime;
+    public Date getLuckDrawTime() {
+        return luckDrawTime;
     }
 
-    public void setWinningTime(Date winningTime) {
-        this.winningTime = winningTime;
+    public void setLuckDrawTime(Date luckDrawTime) {
+        this.luckDrawTime = luckDrawTime;
     }
 
     public Date getCreatedTime() {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.LuckDrawRecordDao">
+    <insert id="add" parameterType="com.demo.entity.LuckDrawRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into luck_draw_record (user_id, activity_id, winning, prize_id, luck_draw_time, created_time, updated_time,
+                              version)
+        values (#{userId},#{activityId},#{winning},#{prizeId},#{luckDrawTime},#{createdTime},#{updatedTime},#{version})
+    </insert>
+
+    <select id="listByUserId" resultType="com.demo.entity.LuckDrawRecord">
+        select l.id,
+               l.user_id,
+               l.activity_id,
+               l.winning,
+               l.prize_id,
+               l.luck_draw_time,
+               l.created_time,
+               l.updated_time,
+               l.version,
+               p.prize_type,
+               p.prize_num
+        from luck_draw_record l
+                 left join prize p on l.prize_id = p.id
+        where l.user_id = #{userId}
+    </select>
+</mapper>

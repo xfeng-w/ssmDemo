@@ -4,7 +4,7 @@ package com.demo.enums;
  * 奖品类型
  */
 public enum PrizeType {
-    RED_ENVELOPE(1, "红包"),
+    RED_PACKET(1, "红包"),
 
     WING(2, "元宝"),
 

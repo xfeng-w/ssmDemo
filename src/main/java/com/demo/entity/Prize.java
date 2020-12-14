@@ -37,7 +37,7 @@ public class Prize implements Serializable {
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Date updatedTime;
 
     /**
      * 版本号
@@ -84,12 +84,12 @@ public class Prize implements Serializable {
         this.createdTime = createdTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatedTime() {
+        return updatedTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
     public Integer getVersion() {

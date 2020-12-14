@@ -30,22 +30,22 @@ public class Activity implements Serializable {
     private Date endTime;
 
     /**
-     * 高概率
+     * 高概率%
      */
     private Double highProbability;
 
     /**
-     * 中概率
+     * 中概率%
      */
     private Double mediumProbability;
 
     /**
-     * 低概率
+     * 低概率%
      */
     private Double lowProbability;
 
     /**
-     * 启用状态
+     * 启用状态1-启用，0-禁用
      */
     private Integer status;
 
