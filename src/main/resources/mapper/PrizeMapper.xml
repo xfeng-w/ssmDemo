@@ -5,7 +5,7 @@
 <mapper namespace="com.demo.dao.PrizeDao">
 
     <select id="selectByActivityId" resultType="com.demo.entity.Prize">
-        select id, name, prize_type, prize_num, created_time, updated_time, version
+        select id, name, prize_type, user_max_num, day_max_num, day_max_num, created_time, updated_time, version
         from prize
         where id in (select prize_id from activity_prize where activity_id = #{activityId})
     </select>

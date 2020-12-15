@@ -4,24 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.dao.LuckDrawRecordDao">
     <insert id="add" parameterType="com.demo.entity.LuckDrawRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into luck_draw_record (user_id, activity_id, prize_id, luck_draw_time, created_time, updated_time,
+        insert into luck_draw_record (user_id, activity_id, activity_prize_id, luck_draw_time, created_time, updated_time,
                               version)
-        values (#{userId},#{activityId},#{prizeId},#{luckDrawTime},#{createdTime},#{updatedTime},#{version})
+        values (#{userId},#{activityId},#{activityPrizeId},#{luckDrawTime},#{createdTime},#{updatedTime},#{version})
     </insert>
 
     <select id="listByUserId" resultType="com.demo.entity.LuckDrawRecord">
         select l.id,
                l.user_id,
                l.activity_id,
-               l.prize_id,
+               l.activity_prize_id,
                l.luck_draw_time,
                l.created_time,
                l.updated_time,
                l.version,
                p.prize_type,
-               p.prize_num
+               ap.prize_num
         from luck_draw_record l
-                 left join prize p on l.prize_id = p.id
-        where l.user_id = #{userId}
+                 left join activity_prize ap on l.activity_prize_id = ap.id
+                 left join prize p on ap.prize_id = p.id
+        where l.user_id = #{userId} and l.activity_id = #{activityId}
+    </select>
+    <select id="listByPrizeTypeAndActivityId" resultType="com.demo.entity.LuckDrawRecord">
+        select l.id,
+               l.user_id,
+               l.activity_id,
+               l.activity_prize_id,
+               l.luck_draw_time,
+               l.created_time,
+               l.updated_time,
+               l.version,
+               p.prize_type,
+               ap.prize_num
+        from luck_draw_record l
+                 left join activity_prize ap on l.activity_prize_id = ap.id
+                 left join prize p on ap.prize_id = p.id
+        where p.prize_type = #{prizeType} and l.activity_id = #{activityId}
     </select>
 </mapper>

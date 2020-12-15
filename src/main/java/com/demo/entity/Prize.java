@@ -25,9 +25,19 @@ public class Prize implements Serializable {
     private Integer prizeType;
 
     /**
-     * 奖品价值
+     * 用户获取最大数量限制
      */
-    private Double prizeNum;
+    private Integer userMaxNum;
+
+    /**
+     * 最大数量限制
+     */
+    private Integer maxNum;
+
+    /**
+     * 每天最大获取数量
+     */
+    private Integer dayMaxNum;
 
     /**
      * 创建时间
@@ -68,12 +78,28 @@ public class Prize implements Serializable {
         this.prizeType = prizeType;
     }
 
-    public Double getPrizeNum() {
-        return prizeNum;
+    public Integer getUserMaxNum() {
+        return userMaxNum;
     }
 
-    public void setPrizeNum(Double prizeNum) {
-        this.prizeNum = prizeNum;
+    public void setUserMaxNum(Integer userMaxNum) {
+        this.userMaxNum = userMaxNum;
+    }
+
+    public Integer getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(Integer maxNum) {
+        this.maxNum = maxNum;
+    }
+
+    public Integer getDayMaxNum() {
+        return dayMaxNum;
+    }
+
+    public void setDayMaxNum(Integer dayMaxNum) {
+        this.dayMaxNum = dayMaxNum;
     }
 
     public Date getCreatedTime() {

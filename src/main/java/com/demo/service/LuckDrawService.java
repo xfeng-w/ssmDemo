@@ -72,9 +72,9 @@ public class LuckDrawService {
         luckDrawRecord.setLuckDrawTime(recordDate);
         luckDrawRecord.setUserId(userId);
         luckDrawRecord.setVersion(1);
-
+        List<LuckDrawRecord> luckDrawRecords = luckDrawRecordService.listByUserId(userId, activity.getId());
         // 判断用户应该走活动的哪个中奖概率
-        double probability = this.getProbability(activity, userId);
+        double probability = this.getProbability(luckDrawRecords, activity);
         // 生成1-10000之间的随机数.
         Random rand = new Random();
         int randNumber = rand.nextInt(10000) + 1;
@@ -89,13 +89,15 @@ public class LuckDrawService {
             for (ActivityPrize activityPrize : activityPrizes) {
                 activityPrize.setPrize(prizeMap.get(activityPrize.getPrizeId()));
             }
+            // 根据条件筛选使用的奖品
+            List<ActivityPrize> useActivityPrizes = chooseUsePrize(activity.getId(), luckDrawRecords, activityPrizes);
             // 获得奖品
-            Prize prize = this.getPrize(activityPrizes);
-            if (Objects.nonNull(prize)) {
-                luckDrawRecord.setPrizeId(prize.getId());
+            ActivityPrize activityPrize = this.getPrize(useActivityPrizes);
+            if (Objects.nonNull(activityPrize)) {
+                luckDrawRecord.setActivityPrizeId(activityPrize.getId());
             }
             result.setWinning(true);
-            result.setPrize(prize);
+            result.setPrize(activityPrize);
         } else {
             result.setWinning(false);
         }
@@ -104,17 +106,15 @@ public class LuckDrawService {
         return result;
     }
 
-    private Prize getPrize(List<ActivityPrize> activityPrizes) {
-        // 根据条件筛选使用的奖品
-        List<ActivityPrize> useActivityPrizes = chooseUsePrize(activityPrizes);
-        int prizeNum = (int) useActivityPrizes.stream().mapToDouble(o -> o.getProbability() * 100).sum();
+    private ActivityPrize getPrize(List<ActivityPrize> activityPrizes) {
+        int prizeNum = (int) activityPrizes.stream().mapToDouble(o -> o.getProbability() * 100).sum();
         Random rand = new Random();
         int randNumber = rand.nextInt(prizeNum) + 1;
         int startNum = 0;
-        for (ActivityPrize item : useActivityPrizes) {
+        for (ActivityPrize item : activityPrizes) {
             int itemProbability = (int) (item.getProbability() * 100);
             if (randNumber >= startNum + 1 && randNumber <= itemProbability + startNum) {
-                return item.getPrize();
+                return item;
             }
             startNum += itemProbability;
         }
@@ -127,7 +127,17 @@ public class LuckDrawService {
      * @param activityPrizes
      * @return
      */
-    private List<ActivityPrize> chooseUsePrize(List<ActivityPrize> activityPrizes) {
+    private List<ActivityPrize> chooseUsePrize(Long activityId, List<LuckDrawRecord> luckDrawRecords, List<ActivityPrize> activityPrizes) {
+        List<LuckDrawRecord> bigPrizeRecord = luckDrawRecordService.listByPrizeTypeAndActivityId(5, activityId);
+
+        // 终极大奖总的获取数量
+        int bigPrizeNum = bigPrizeRecord.size();
+        // 玩家获得代币的数量
+        int tokensNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                .filter(o -> o.getPrizeType().equals(4)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
+        // 玩家获得终极大奖得数量
+        int userBigPrizeNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                .filter(o -> o.getPrizeType().equals(5)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
         return activityPrizes;
     }
 
@@ -135,11 +145,10 @@ public class LuckDrawService {
      * 获取该用户参与活动的中奖率
      *
      * @param activity
-     * @param userId
      * @return
      */
-    private Double getProbability(Activity activity, Long userId) {
-        List<LuckDrawRecord> luckDrawRecords = luckDrawRecordService.listByUserId(userId);
+    private Double getProbability(List<LuckDrawRecord> luckDrawRecords, Activity activity) {
+
         boolean highProbability = false;
         boolean lowProbability = false;
         // 判断是否满足高概率
@@ -147,9 +156,11 @@ public class LuckDrawService {
             highProbability = true;
         }
         // 玩家获得的红包数量
-        double redPacketNum = luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getPrizeId())).filter(o -> o.getPrizeType().equals(1)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
+        double redPacketNum = luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                .filter(o -> o.getPrizeType().equals(1)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
         // 玩家获得的元宝数量
-        double wingNum = luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getPrizeId())).filter(o -> o.getPrizeType().equals(2)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
+        double wingNum = luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                .filter(o -> o.getPrizeType().equals(2)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
         // 判断是否满足低概率
         if (redPacketNum > 40 || (luckDrawRecords.size() > 15 && wingNum > 300) || luckDrawRecords.size() > 30) {
             lowProbability = true;

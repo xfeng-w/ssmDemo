@@ -20,6 +20,16 @@ public class ActivityPrize implements Serializable {
     private Long activityId;
 
     /**
+     * 奖品名称
+     */
+    private String name;
+
+    /**
+     * 奖品数量
+     */
+    private Double prizeNum;
+
+    /**
      * 奖品Id
      */
     private Long prizeId;
@@ -64,6 +74,22 @@ public class ActivityPrize implements Serializable {
 
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrizeNum() {
+        return prizeNum;
+    }
+
+    public void setPrizeNum(Double prizeNum) {
+        this.prizeNum = prizeNum;
     }
 
     public Long getPrizeId() {

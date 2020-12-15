@@ -23,8 +23,13 @@ public class LuckDrawRecordService {
     }
 
     @Cacheable(value = "LuckDrawRecords", key = "#result.id + '_' + #result.userId", unless = "#result eq null || #result.size() < 1")
-    public List<LuckDrawRecord> listByUserId(Long userId) {
-        return luckDrawRecordDao.listByUserId(userId);
+    public List<LuckDrawRecord> listByUserId(Long userId,Long activityId) {
+        return luckDrawRecordDao.listByUserId(userId,activityId);
+    }
+
+    @Cacheable(value = "LuckDrawRecords", key = "#result.id + '_' + #result.userId", unless = "#result eq null || #result.size() < 1")
+    public List<LuckDrawRecord> listByPrizeTypeAndActivityId(Integer prizeType, Long activityId) {
+        return luckDrawRecordDao.listByPrizeTypeAndActivityId(prizeType, activityId);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.demo.vo;
 
+import com.demo.entity.ActivityPrize;
 import com.demo.entity.Prize;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ public class LuckDrawVO implements Serializable {
     /**
      * 中奖奖品
      */
-    private Prize prize;
+    private ActivityPrize prize;
 
     public Boolean getWinning() {
         return winning;
@@ -25,11 +26,11 @@ public class LuckDrawVO implements Serializable {
         this.winning = winning;
     }
 
-    public Prize getPrize() {
+    public ActivityPrize getPrize() {
         return prize;
     }
 
-    public void setPrize(Prize prize) {
+    public void setPrize(ActivityPrize prize) {
         this.prize = prize;
     }
 }

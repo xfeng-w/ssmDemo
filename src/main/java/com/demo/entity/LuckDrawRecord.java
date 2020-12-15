@@ -27,7 +27,7 @@ public class LuckDrawRecord implements Serializable {
     /**
      * 奖品Id
      */
-    private Long prizeId;
+    private Long activityPrizeId;
 
     /**
      * 中奖时间
@@ -100,12 +100,12 @@ public class LuckDrawRecord implements Serializable {
         this.activityId = activityId;
     }
 
-    public Long getPrizeId() {
-        return prizeId;
+    public Long getActivityPrizeId() {
+        return activityPrizeId;
     }
 
-    public void setPrizeId(Long prizeId) {
-        this.prizeId = prizeId;
+    public void setActivityPrizeId(Long activityPrizeId) {
+        this.activityPrizeId = activityPrizeId;
     }
 
     public Date getLuckDrawTime() {
