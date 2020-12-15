@@ -14,9 +14,19 @@ public class LuckDrawVO implements Serializable {
     private Boolean winning;
 
     /**
-     * 中奖奖品
+     * 奖品名称
      */
-    private ActivityPrize prize;
+    private String prizeName;
+
+    /**
+     * 奖品数量
+     */
+    private Double prizeNum;
+
+    /**
+     * 奖品Id
+     */
+    private Long prizeId;
 
     public Boolean getWinning() {
         return winning;
@@ -26,11 +36,27 @@ public class LuckDrawVO implements Serializable {
         this.winning = winning;
     }
 
-    public ActivityPrize getPrize() {
-        return prize;
+    public String getPrizeName() {
+        return prizeName;
     }
 
-    public void setPrize(ActivityPrize prize) {
-        this.prize = prize;
+    public void setPrizeName(String prizeName) {
+        this.prizeName = prizeName;
+    }
+
+    public Double getPrizeNum() {
+        return prizeNum;
+    }
+
+    public void setPrizeNum(Double prizeNum) {
+        this.prizeNum = prizeNum;
+    }
+
+    public Long getPrizeId() {
+        return prizeId;
+    }
+
+    public void setPrizeId(Long prizeId) {
+        this.prizeId = prizeId;
     }
 }

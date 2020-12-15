@@ -40,6 +40,10 @@ public class ActivityPrize implements Serializable {
     private Double probability;
 
     /**
+     * 是否抽取奖品
+     */
+    private Boolean luckyDrawPrize;
+    /**
      * 创建时间
      */
     private Date createdTime;
@@ -106,6 +110,14 @@ public class ActivityPrize implements Serializable {
 
     public void setProbability(Double probability) {
         this.probability = probability;
+    }
+
+    public Boolean getLuckyDrawPrize() {
+        return luckyDrawPrize;
+    }
+
+    public void setLuckyDrawPrize(Boolean luckyDrawPrize) {
+        this.luckyDrawPrize = luckyDrawPrize;
     }
 
     public Date getCreatedTime() {

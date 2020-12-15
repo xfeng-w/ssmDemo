@@ -16,4 +16,8 @@ public class PrizeService {
     public List<Prize> selectByActivityId(Long activityId) {
         return prizeDao.selectByActivityId(activityId);
     }
+
+    public Prize selectById(Long id) {
+        return prizeDao.selectById(id);
+    }
 }

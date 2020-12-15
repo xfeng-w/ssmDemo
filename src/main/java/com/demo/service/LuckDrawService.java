@@ -95,9 +95,11 @@ public class LuckDrawService {
             ActivityPrize activityPrize = this.getPrize(useActivityPrizes);
             if (Objects.nonNull(activityPrize)) {
                 luckDrawRecord.setActivityPrizeId(activityPrize.getId());
+                result.setWinning(true);
+                result.setPrizeName(activityPrize.getName());
+                result.setPrizeId(activityPrize.getPrizeId());
+                result.setPrizeNum(activityPrize.getPrizeNum());
             }
-            result.setWinning(true);
-            result.setPrize(activityPrize);
         } else {
             result.setWinning(false);
         }

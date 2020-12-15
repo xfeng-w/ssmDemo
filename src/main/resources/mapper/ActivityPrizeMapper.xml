@@ -5,7 +5,7 @@
 <mapper namespace="com.demo.dao.ActivityPrizeDao">
 
     <select id="selectByActivityId" resultType="com.demo.entity.ActivityPrize">
-        select id, activity_id, prize_id, probability, created_time, updated_time, version
+        select id, activity_id, name, prize_num, prize_id, probability, lucky_draw_prize,created_time, updated_time, version
         from activity_prize
         where activity_id = #{activityId}
     </select>
