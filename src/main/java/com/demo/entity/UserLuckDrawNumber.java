@@ -21,6 +21,11 @@ public class UserLuckDrawNumber implements Serializable {
     private Long userId;
 
     /**
+     * 活动id
+     */
+    private Long activityId;
+
+    /**
      * 抽奖次数
      */
     private Integer luckDrawNumber;
@@ -59,6 +64,14 @@ public class UserLuckDrawNumber implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
     }
 
     public Integer getLuckDrawNumber() {

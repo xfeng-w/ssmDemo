@@ -13,7 +13,8 @@ public class UserLuckDrawNumberService {
     @Autowired
     private UserLuckDrawNumberDao userLuckDrawNumberDao;
 
-    public UserLuckDrawNumber selectByUserId(Long userId, Date luckDrawDate) {
-        return userLuckDrawNumberDao.selectByUserId(userId, luckDrawDate);
+
+    public UserLuckDrawNumber selectByUserIdAndActivityId(Long userId, Long activityId, Date luckDrawDate) {
+        return userLuckDrawNumberDao.selectByUserIdAndActivityId(userId, activityId, luckDrawDate);
     }
 }

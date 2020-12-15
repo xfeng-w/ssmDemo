@@ -58,7 +58,7 @@ public class LuckDrawService {
             throw new BadRequestException(ErrorCode.ACTIVITY_IS_END);
         }
         // 查询用户的剩余抽奖次数
-        UserLuckDrawNumber userLuckDrawNumber = userLuckDrawNumberService.selectByUserId(userId, new Date());
+        UserLuckDrawNumber userLuckDrawNumber = userLuckDrawNumberService.selectByUserIdAndActivityId(userId, activity.getId(), new Date());
         if (Objects.isNull(userLuckDrawNumber) || userLuckDrawNumber.getLuckDrawNumber() < 1) {
             // 用户没有剩余抽奖次数了
             throw new BadRequestException(ErrorCode.USER_HAVE_NO_LUCK_DRAW_NUMBER);

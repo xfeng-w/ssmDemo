@@ -7,5 +7,5 @@ import java.util.Date;
 
 public interface UserLuckDrawNumberDao {
 
-    UserLuckDrawNumber selectByUserId(@Param("userId") Long userId, @Param("luckDrawDate") Date luckDrawDate);
+    UserLuckDrawNumber selectByUserIdAndActivityId(@Param("userId") Long userId, @Param("activityId") Long activityId, @Param("luckDrawDate") Date luckDrawDate);
 }

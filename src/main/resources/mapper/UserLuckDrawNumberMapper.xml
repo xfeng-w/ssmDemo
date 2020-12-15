@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.dao.UserLuckDrawNumberDao">
-    <select id="selectByUserId" resultType="com.demo.entity.UserLuckDrawNumber">
-        select id, user_id, luck_draw_number, luck_draw_date, created_time, updated_time, version
+    <select id="selectByUserIdAndActivityId" resultType="com.demo.entity.UserLuckDrawNumber">
+        select id, user_id,activity_id, luck_draw_number, luck_draw_date, created_time, updated_time, version
         from user_luck_draw_number
-        where user_id = #{userId} and luck_draw_date = date_format(#{luckDrawDate},'%Y-%m-%d')
+        where user_id = #{userId} and activity_id = #{activityId} and luck_draw_date = date_format(#{luckDrawDate},'%Y-%m-%d')
     </select>
 </mapper>
