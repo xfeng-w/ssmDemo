@@ -5,23 +5,24 @@ import java.io.Serializable;
 public class loginResponse implements Serializable {
     private static final long serialVersionUID = -5818924611322287519L;
 
-    private Boolean success;
+    private Long userId;
 
-    private String message;
+    private String token;
 
-    public Boolean getSuccess() {
-        return success;
+    public String getToken() {
+        return token;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public String getMessage() {
-        return message;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
+
 }

@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import com.demo.service.CheckTokenService;
 import com.demo.service.LuckDrawService;
 import com.demo.vo.LuckDrawVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,13 @@ public class LuckDrawController {
     @Autowired
     private LuckDrawService luckDrawService;
 
+    @Autowired
+    private CheckTokenService checkTokenService;
+
     @ResponseBody
     @GetMapping()
-    public LuckDrawVO luckDraw(Long userId, String activityCode) {
+    public LuckDrawVO luckDraw(Long userId, String token, String activityCode) {
+        checkTokenService.checkToken(userId, token);
         return luckDrawService.lottery(userId, activityCode);
     }
 }

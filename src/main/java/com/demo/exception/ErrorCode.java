@@ -15,6 +15,14 @@ public enum ErrorCode {
     ACTIVITY_IS_END(10004, "活动已结束"),
 
     USER_HAVE_NO_LUCK_DRAW_NUMBER(10005, "用户没有抽奖次数"),
+
+    USER_PASSWORD_ERROR(10006, "用户密码错误"),
+
+    REQUIRED_FIELDS_NOT_BE_EMPTY(10007, "必填项不能为空"),
+
+    ACCOUNT_OR_PHONE_EXIST(10008, "账号或手机号已被注册"),
+
+    USER_LOGON_FAILURE(10009, "用户登录失效"),
     ;
 
     private Integer code;

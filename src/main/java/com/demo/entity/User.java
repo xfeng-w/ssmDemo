@@ -32,6 +32,11 @@ public class User implements Serializable {
     private String phone;
 
     /**
+     * 登录时生成的秘钥，md5加密
+     */
+    private String token;
+
+    /**
      * 创建时间
      */
     private Date createdTime;
@@ -45,6 +50,14 @@ public class User implements Serializable {
      * 版本号
      */
     private Integer version;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Long getId() {
         return id;

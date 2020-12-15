@@ -9,6 +9,8 @@ public interface UserDao {
 
     int addUser(User user);
 
+    int edit(User user);
+
     User selectByAccountOrPhone(String loginName);
 
     User selectByAccountAndPhone(@Param("account") String account, @Param("phone") String phone);
