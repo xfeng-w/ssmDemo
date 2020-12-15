@@ -1,8 +1,5 @@
 package com.demo.vo;
 
-import com.demo.entity.ActivityPrize;
-import com.demo.entity.Prize;
-
 import java.io.Serializable;
 
 public class LuckDrawVO implements Serializable {
@@ -22,6 +19,11 @@ public class LuckDrawVO implements Serializable {
      * 奖品数量
      */
     private Double prizeNum;
+
+    /**
+     * 奖品类型
+     */
+    private Integer prizeType;
 
     /**
      * 奖品Id
@@ -50,6 +52,14 @@ public class LuckDrawVO implements Serializable {
 
     public void setPrizeNum(Double prizeNum) {
         this.prizeNum = prizeNum;
+    }
+
+    public Integer getPrizeType() {
+        return prizeType;
+    }
+
+    public void setPrizeType(Integer prizeType) {
+        this.prizeType = prizeType;
     }
 
     public Long getPrizeId() {

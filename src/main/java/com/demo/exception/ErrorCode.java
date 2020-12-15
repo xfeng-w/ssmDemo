@@ -23,6 +23,8 @@ public enum ErrorCode {
     ACCOUNT_OR_PHONE_EXIST(10008, "账号或手机号已被注册"),
 
     USER_LOGON_FAILURE(10009, "用户登录失效"),
+
+    BIG_PRIZE_NOT_EXIST(10010, "终极大奖不存在"),
     ;
 
     private Integer code;

@@ -4,9 +4,13 @@ import com.demo.entity.*;
 import com.demo.exception.BadRequestException;
 import com.demo.exception.ErrorCode;
 import com.demo.vo.LuckDrawVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -16,6 +20,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class LuckDrawService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LuckDrawService.class);
 
     @Autowired
     private UserService userService;
@@ -35,6 +41,7 @@ public class LuckDrawService {
     @Autowired
     private PrizeService prizeService;
 
+    @Transactional
     public LuckDrawVO lottery(Long userId, String activityCode) {
         User user = userService.selectUserById(userId);
         if (Objects.isNull(user)) {
@@ -89,6 +96,12 @@ public class LuckDrawService {
             for (ActivityPrize activityPrize : activityPrizes) {
                 activityPrize.setPrize(prizeMap.get(activityPrize.getPrizeId()));
             }
+            ActivityPrize bigPrize = null;
+            for (ActivityPrize item : activityPrizes) {
+                if (item.getPrize().getPrizeType().equals(5)) {
+                    bigPrize = item;
+                }
+            }
             // 根据条件筛选使用的奖品
             List<ActivityPrize> useActivityPrizes = chooseUsePrize(activity.getId(), luckDrawRecords, activityPrizes);
             // 获得奖品
@@ -99,6 +112,24 @@ public class LuckDrawService {
                 result.setPrizeName(activityPrize.getName());
                 result.setPrizeId(activityPrize.getPrizeId());
                 result.setPrizeNum(activityPrize.getPrizeNum());
+                result.setPrizeType(activityPrize.getPrize().getPrizeType());
+                // 如果获取的是代币，判断是否发放大奖
+                if (result.getPrizeType().equals(4)) {
+                    // 玩家获得代币的数量
+                    int userTokensNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                            .filter(o -> o.getPrizeType().equals(4)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
+                    if (userTokensNum + result.getPrizeNum() > 100) {
+                        LuckDrawRecord bigPrizeRecord = new LuckDrawRecord();
+                        bigPrizeRecord.setActivityId(activity.getId());
+                        bigPrizeRecord.setCreatedTime(recordDate);
+                        bigPrizeRecord.setUpdatedTime(recordDate);
+                        bigPrizeRecord.setLuckDrawTime(recordDate);
+                        bigPrizeRecord.setUserId(userId);
+                        bigPrizeRecord.setVersion(1);
+                        bigPrizeRecord.setActivityPrizeId(bigPrize.getId());
+                        luckDrawRecordService.add(bigPrizeRecord);
+                    }
+                }
             }
         } else {
             result.setWinning(false);
@@ -132,14 +163,56 @@ public class LuckDrawService {
     private List<ActivityPrize> chooseUsePrize(Long activityId, List<LuckDrawRecord> luckDrawRecords, List<ActivityPrize> activityPrizes) {
         List<LuckDrawRecord> bigPrizeRecord = luckDrawRecordService.listByPrizeTypeAndActivityId(5, activityId);
 
+        ActivityPrize bigPrize = null;
+        for (ActivityPrize item : activityPrizes) {
+            if (item.getPrize().getPrizeType().equals(5)) {
+                bigPrize = item;
+            }
+        }
+        if (Objects.isNull(bigPrize)) {
+            throw new BadRequestException(ErrorCode.BIG_PRIZE_NOT_EXIST);
+        }
         // 终极大奖总的获取数量
         int bigPrizeNum = bigPrizeRecord.size();
         // 玩家获得代币的数量
-        int tokensNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+        int userTokensNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                .filter(o -> o.getPrizeType().equals(4)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
+        Date today = new Date();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        // 玩家当天获取的代币数量
+        int userTodayTokensNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
+                .filter(o -> fmt.format(today).equals(fmt.format(o.getLuckDrawTime())))
                 .filter(o -> o.getPrizeType().equals(4)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
         // 玩家获得终极大奖得数量
         int userBigPrizeNum = (int) luckDrawRecords.stream().filter(o -> Objects.nonNull(o.getActivityPrizeId()))
                 .filter(o -> o.getPrizeType().equals(5)).mapToDouble(LuckDrawRecord::getPrizeNum).sum();
+        Iterator<ActivityPrize> iterator = activityPrizes.listIterator();
+        while (iterator.hasNext()) {
+            ActivityPrize item = iterator.next();
+            if (!item.getLuckyDrawPrize()) {
+                iterator.remove();
+                continue;
+            }
+            // 删除不可以继续掉落的代币奖励
+            if (item.getPrize().getPrizeType().equals(4)) {
+                // 超级大奖发放完毕，并且该玩家已经获得过超级大奖
+                if (bigPrizeNum >= bigPrize.getPrize().getMaxNum() && userBigPrizeNum >= 1) {
+                    iterator.remove();
+                    continue;
+                }
+                // 超级大奖已经发放完毕并且玩家没获得过超级大奖，可以获得代币但是不能超过100个
+                if (bigPrizeNum >= bigPrize.getPrize().getMaxNum() && userBigPrizeNum <= 1) {
+                    if (userTokensNum + item.getPrizeNum() >= 100) {
+                        iterator.remove();
+                        continue;
+                    }
+                }
+                // 玩家每天最多获取n个代币
+                if (userTodayTokensNum + item.getPrizeNum() > item.getPrize().getDayMaxNum()) {
+                    iterator.remove();
+                }
+            }
+        }
         return activityPrizes;
     }
 
