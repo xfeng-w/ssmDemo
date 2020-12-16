@@ -3,6 +3,9 @@ package com.demo.service;
 import com.demo.dao.UserLuckDrawNumberDao;
 import com.demo.entity.UserLuckDrawNumber;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +22,12 @@ public class UserLuckDrawNumberService {
     @Autowired
     private UserLuckDrawNumberDao userLuckDrawNumberDao;
 
-
+    @Cacheable(value = "UserLuckDrawNumber", key = "#result.userId + '_' + #result.activityId + '_' + #result.luckDrawDate", condition = "#result != null")
     public UserLuckDrawNumber selectByUserIdAndActivityId(Long userId, Long activityId, Date luckDrawDate) {
         return userLuckDrawNumberDao.selectByUserIdAndActivityId(userId, activityId, luckDrawDate);
     }
 
+    @Cacheable(value = "UserLuckDrawNumber", key = "#result.userId + '_' + #result.activityId + '_' + #result.luckDrawDate", condition = "#result != null")
     public UserLuckDrawNumber toReduceLuckDrawNum(Long userId, Long activityId, Date luckDrawDate) {
         UserLuckDrawNumber userLuckDrawNumber = selectByUserIdAndActivityId(userId, activityId, luckDrawDate);
         userLuckDrawNumber.setUpdatedTime(new Date());
@@ -32,6 +36,7 @@ public class UserLuckDrawNumberService {
         return userLuckDrawNumber;
     }
 
+    @Cacheable(value = "UserLuckDrawNumber", key = "#result.userId + '_' + #result.activityId + '_' + #result.luckDrawDate", condition = "#result != null")
     @Transactional
     public UserLuckDrawNumber increaseLuckDrawNum(Long userId, Long activityId, Date luckDrawDate) {
         UserLuckDrawNumber userLuckDrawNumber = selectByUserIdAndActivityId(userId, activityId, luckDrawDate);
