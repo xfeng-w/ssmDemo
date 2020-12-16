@@ -76,7 +76,8 @@ public class SignInService {
         userLuckDrawNumberService.increaseLuckDrawNum(userId, activityId, today);
         if (userSignInRecord.getContinuousSignInDays().equals(7) || userSignInRecord.getContinuousSignInDays().equals(14)
                 || userSignInRecord.getContinuousSignInDays().equals(21) || userSignInRecord.getContinuousSignInDays().equals(28)) {
-            // todo 发放额外奖励
+            // 额外奖励
+            userLuckDrawNumberService.increaseLuckDrawNum(userId, activityId, today);
         }
         return signInVo;
     }
