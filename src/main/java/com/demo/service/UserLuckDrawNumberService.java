@@ -3,9 +3,7 @@ package com.demo.service;
 import com.demo.dao.UserLuckDrawNumberDao;
 import com.demo.entity.UserLuckDrawNumber;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
