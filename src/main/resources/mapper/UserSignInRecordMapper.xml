@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.UserSignInRecordDao">
+    <select id="selectByActivityIdAndUserId" resultType="com.demo.entity.UserSignInRecord">
+        select id,
+               user_id,
+               activity_id,
+               sign_in_days,
+               continuous_sign_in_days,
+               sign_in_dates,
+               created_time,
+               updated_time,
+               version
+        from user_sign_in_record
+        where activity_id = #{activityId}
+          and user_id = #{userId}
+    </select>
+
+    <insert id="add" parameterType="com.demo.entity.UserSignInRecord">
+        insert into user_sign_in_record (user_id, activity_id, sign_in_days, continuous_sign_in_days, sign_in_dates,
+                                     created_time, updated_time, version)
+        VALUE (#{userId}, #{activityId}, #{signInDays}, #{continuousSignInDays}, #{signInDates}, #{createdTime}, #{updatedTime}, #{version})
+    </insert>
+
+    <update id="updateByActivityIdAndUserId" parameterType="com.demo.entity.UserSignInRecord">
+        update user_sign_in_record
+        set sign_in_days = #{signInDays}, continuous_sign_in_days = #{continuousSignInDays}, sign_in_dates = #{signInDates}, updated_time = #{updatedTime}
+        where activity_id = #{activityId}
+          and user_id = #{userId}
+    </update>
+</mapper>

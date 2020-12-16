@@ -8,4 +8,8 @@ import java.util.Date;
 public interface UserLuckDrawNumberDao {
 
     UserLuckDrawNumber selectByUserIdAndActivityId(@Param("userId") Long userId, @Param("activityId") Long activityId, @Param("luckDrawDate") Date luckDrawDate);
+
+    int updateByUserIdAndActivityId(UserLuckDrawNumber userLuckDrawNumber);
+
+    int add(UserLuckDrawNumber userLuckDrawNumber);
 }

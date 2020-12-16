@@ -135,7 +135,8 @@ public class LuckDrawService {
             result.setWinning(false);
         }
         luckDrawRecordService.add(luckDrawRecord);
-        // todo 抽奖次数-1
+        // 抽奖次数-1
+        userLuckDrawNumberService.toReduceLuckDrawNum(userId, activity.getId(), new Date());
         return result;
     }
 

@@ -25,6 +25,8 @@ public enum ErrorCode {
     USER_LOGON_FAILURE(10009, "用户登录失效"),
 
     BIG_PRIZE_NOT_EXIST(10010, "终极大奖不存在"),
+
+    REPEAT_SIGN_IN(10011, "重复签到"),
     ;
 
     private Integer code;

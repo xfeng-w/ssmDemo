@@ -8,4 +8,16 @@
         from user_luck_draw_number
         where user_id = #{userId} and activity_id = #{activityId} and luck_draw_date = date_format(#{luckDrawDate},'%Y-%m-%d')
     </select>
+
+    <update id="updateByUserIdAndActivityId" parameterType="com.demo.entity.UserLuckDrawNumber">
+        update user_luck_draw_number
+        set updated_time = #{updatedTime}, luck_draw_number = #{luckDrawNumber}
+        where user_id = #{userId} and activity_id = #{activityId} and luck_draw_date = date_format(#{luckDrawDate},'%Y-%m-%d')
+    </update>
+
+    <insert id="add" parameterType="com.demo.entity.UserLuckDrawNumber">
+        insert into user_luck_draw_number (user_id, activity_id, luck_draw_number, luck_draw_date, created_time,
+                                           updated_time, version)
+            VALUE (#{userId}, #{activityId}, #{luckDrawNumber}, #{luckDrawDate}, #{createdTime}, #{updatedTime}, #{version});
+    </insert>
 </mapper>
