@@ -15,4 +15,20 @@
         from prize
         where id = #{id}
     </select>
+
+    <insert id="add" parameterType="com.demo.entity.Prize">
+        insert into prize (name, prize_type, user_max_num, max_num, day_max_num, created_time, updated_time, version)
+            value (#{name}, #{prizetype}, #{userMaxNum}, #{maxNum}, #{dayMaxNum}, #{createdTime}, #{updatedTime}, #{version})
+    </insert>
+
+    <update id="updateById" parameterType="com.demo.entity.Prize">
+        update prize
+        set name         = #{name},
+            prize_type   = #{prizeType},
+            user_max_num = #{userMaxNum},
+            max_num      = #{maxNum},
+            day_max_num  = #{dayMaxNum},
+            updated_time = #{updatedTime}
+        where id = #{id}
+    </update>
 </mapper>

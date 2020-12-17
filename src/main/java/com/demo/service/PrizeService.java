@@ -20,4 +20,14 @@ public class PrizeService {
     public Prize selectById(Long id) {
         return prizeDao.selectById(id);
     }
+
+    public Prize updateById(Prize prize) {
+        prizeDao.updateById(prize);
+        return prize;
+    }
+
+    public Prize add(Prize prize) {
+        prizeDao.add(prize);
+        return prize;
+    }
 }
