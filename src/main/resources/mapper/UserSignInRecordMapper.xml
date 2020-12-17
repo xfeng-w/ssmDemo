@@ -8,8 +8,7 @@
                user_id,
                activity_id,
                sign_in_days,
-               continuous_sign_in_days,
-               sign_in_dates,
+               last_sign_in_time,
                created_time,
                updated_time,
                version
@@ -19,14 +18,14 @@
     </select>
 
     <insert id="add" parameterType="com.demo.entity.UserSignInRecord">
-        insert into user_sign_in_record (user_id, activity_id, sign_in_days, continuous_sign_in_days, sign_in_dates,
+        insert into user_sign_in_record (user_id, activity_id, sign_in_days, last_sign_in_time,
                                      created_time, updated_time, version)
-        VALUE (#{userId}, #{activityId}, #{signInDays}, #{continuousSignInDays}, #{signInDates}, #{createdTime}, #{updatedTime}, #{version})
+        VALUE (#{userId}, #{activityId}, #{signInDays}, #{lastSignInTime}, #{createdTime}, #{updatedTime}, #{version})
     </insert>
 
     <update id="updateByActivityIdAndUserId" parameterType="com.demo.entity.UserSignInRecord">
         update user_sign_in_record
-        set sign_in_days = #{signInDays}, continuous_sign_in_days = #{continuousSignInDays}, sign_in_dates = #{signInDates}, updated_time = #{updatedTime}
+        set sign_in_days = #{signInDays}, last_sign_in_time = #{lastSignInTime}, updated_time = #{updatedTime}, version = #{version}
         where activity_id = #{activityId}
           and user_id = #{userId}
     </update>

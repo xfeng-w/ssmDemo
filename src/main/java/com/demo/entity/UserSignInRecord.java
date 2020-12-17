@@ -32,7 +32,7 @@ public class UserSignInRecord implements Serializable {
     /**
      * 签到日期，逗号分隔
      */
-    private Date lastSignInDates;
+    private Date lastSignInTime;
 
     /**
      * 创建时间
@@ -81,12 +81,12 @@ public class UserSignInRecord implements Serializable {
         this.signInDays = signInDays;
     }
 
-    public Date getLastSignInDates() {
-        return lastSignInDates;
+    public Date getLastSignInTime() {
+        return lastSignInTime;
     }
 
-    public void setLastSignInDates(Date lastSignInDates) {
-        this.lastSignInDates = lastSignInDates;
+    public void setLastSignInTime(Date lastSignInTime) {
+        this.lastSignInTime = lastSignInTime;
     }
 
     public Date getCreatedTime() {

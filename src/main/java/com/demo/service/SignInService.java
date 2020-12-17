@@ -39,11 +39,11 @@ public class SignInService {
             userSignInRecord.setCreatedTime(today);
             userSignInRecord.setUpdatedTime(today);
             userSignInRecord.setVersion(1);
-            userSignInRecord.setLastSignInDates(today);
+            userSignInRecord.setLastSignInTime(today);
             userSignInRecordService.add(userSignInRecord);
         } else {
             // 存在签到记录更新最后签到时间
-            Date lastSignDate = userSignInRecord.getLastSignInDates();
+            Date lastSignDate = userSignInRecord.getLastSignInTime();
             if (sdf.format(today).equals(sdf.format(lastSignDate))) {
                 throw new BadRequestException(ErrorCode.REPEAT_SIGN_IN);
             }
@@ -53,11 +53,11 @@ public class SignInService {
             Date previousDay = calendar.getTime();
             // 如果断签或签到满28天重置签到次数
             if (userSignInRecord.getSignInDays() >= 28 || !sdf.format(previousDay).equals(sdf.format(lastSignDate))) {
-                userSignInRecord.setLastSignInDates(today);
+                userSignInRecord.setLastSignInTime(today);
                 userSignInRecord.setSignInDays(1);
             } else {
                 userSignInRecord.setSignInDays(userSignInRecord.getSignInDays() + 1);
-                userSignInRecord.setLastSignInDates(today);
+                userSignInRecord.setLastSignInTime(today);
             }
             userSignInRecord.setUpdatedTime(today);
             userSignInRecordService.updateByActivityIdAndUserId(userSignInRecord);
@@ -66,7 +66,7 @@ public class SignInService {
         signInVo.setActivityId(activityId);
         signInVo.setUserId(userId);
         signInVo.setSignInDays(userSignInRecord.getSignInDays());
-        signInVo.setLastSignInDates(userSignInRecord.getLastSignInDates());
+        signInVo.setLastSignInDates(userSignInRecord.getLastSignInTime());
         userLuckDrawNumberService.increaseLuckDrawNum(userId, activityId, today);
         if (userSignInRecord.getSignInDays().equals(7) || userSignInRecord.getSignInDays().equals(14)
                 || userSignInRecord.getSignInDays().equals(21) || userSignInRecord.getSignInDays().equals(28)) {
