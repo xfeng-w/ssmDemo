@@ -35,19 +35,16 @@ public class SignInService {
             userSignInRecord = new UserSignInRecord();
             userSignInRecord.setActivityId(activityId);
             userSignInRecord.setUserId(userId);
-            userSignInRecord.setContinuousSignInDays(1);
             userSignInRecord.setSignInDays(1);
             userSignInRecord.setCreatedTime(today);
             userSignInRecord.setUpdatedTime(today);
             userSignInRecord.setVersion(1);
-            userSignInRecord.setSignInDates(sdf.format(today));
+            userSignInRecord.setLastSignInDates(today);
             userSignInRecordService.add(userSignInRecord);
         } else {
-            // 存在签到记录，在原来的签到记录上添加新的签到日期
-            String signDates = userSignInRecord.getSignInDates();
-            String[] signDatesStr = signDates.split(",");
-            String lastSignDate = signDatesStr[signDatesStr.length - 1];
-            if (sdf.format(today).equals(lastSignDate)) {
+            // 存在签到记录更新最后签到时间
+            Date lastSignDate = userSignInRecord.getLastSignInDates();
+            if (sdf.format(today).equals(sdf.format(lastSignDate))) {
                 throw new BadRequestException(ErrorCode.REPEAT_SIGN_IN);
             }
             Calendar calendar = Calendar.getInstance();
@@ -55,14 +52,12 @@ public class SignInService {
             calendar.add(Calendar.DATE, -1);
             Date previousDay = calendar.getTime();
             // 如果断签或签到满28天重置签到次数
-            if (userSignInRecord.getContinuousSignInDays() >= 28 || !sdf.format(previousDay).equals(lastSignDate)) {
-                userSignInRecord.setSignInDates(sdf.format(today));
+            if (userSignInRecord.getSignInDays() >= 28 || !sdf.format(previousDay).equals(sdf.format(lastSignDate))) {
+                userSignInRecord.setLastSignInDates(today);
                 userSignInRecord.setSignInDays(1);
-                userSignInRecord.setContinuousSignInDays(1);
             } else {
-                userSignInRecord.setContinuousSignInDays(userSignInRecord.getContinuousSignInDays() + 1);
                 userSignInRecord.setSignInDays(userSignInRecord.getSignInDays() + 1);
-                userSignInRecord.setSignInDates(userSignInRecord.getSignInDates() + "," + sdf.format(today));
+                userSignInRecord.setLastSignInDates(today);
             }
             userSignInRecord.setUpdatedTime(today);
             userSignInRecordService.updateByActivityIdAndUserId(userSignInRecord);
@@ -71,11 +66,10 @@ public class SignInService {
         signInVo.setActivityId(activityId);
         signInVo.setUserId(userId);
         signInVo.setSignInDays(userSignInRecord.getSignInDays());
-        signInVo.setContinuousSignInDays(userSignInRecord.getContinuousSignInDays());
-        signInVo.setSignInDates(userSignInRecord.getSignInDates());
+        signInVo.setLastSignInDates(userSignInRecord.getLastSignInDates());
         userLuckDrawNumberService.increaseLuckDrawNum(userId, activityId, today);
-        if (userSignInRecord.getContinuousSignInDays().equals(7) || userSignInRecord.getContinuousSignInDays().equals(14)
-                || userSignInRecord.getContinuousSignInDays().equals(21) || userSignInRecord.getContinuousSignInDays().equals(28)) {
+        if (userSignInRecord.getSignInDays().equals(7) || userSignInRecord.getSignInDays().equals(14)
+                || userSignInRecord.getSignInDays().equals(21) || userSignInRecord.getSignInDays().equals(28)) {
             // 额外奖励
             userLuckDrawNumberService.increaseLuckDrawNum(userId, activityId, today);
         }

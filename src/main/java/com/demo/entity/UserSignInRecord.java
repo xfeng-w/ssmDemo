@@ -30,14 +30,9 @@ public class UserSignInRecord implements Serializable {
     private Integer signInDays;
 
     /**
-     * 连续签到天数
-     */
-    private Integer continuousSignInDays;
-
-    /**
      * 签到日期，逗号分隔
      */
-    private String signInDates;
+    private Date lastSignInDates;
 
     /**
      * 创建时间
@@ -86,20 +81,12 @@ public class UserSignInRecord implements Serializable {
         this.signInDays = signInDays;
     }
 
-    public Integer getContinuousSignInDays() {
-        return continuousSignInDays;
+    public Date getLastSignInDates() {
+        return lastSignInDates;
     }
 
-    public void setContinuousSignInDays(Integer continuousSignInDays) {
-        this.continuousSignInDays = continuousSignInDays;
-    }
-
-    public String getSignInDates() {
-        return signInDates;
-    }
-
-    public void setSignInDates(String signInDates) {
-        this.signInDates = signInDates;
+    public void setLastSignInDates(Date lastSignInDates) {
+        this.lastSignInDates = lastSignInDates;
     }
 
     public Date getCreatedTime() {

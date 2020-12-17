@@ -26,6 +26,11 @@ public class UserLuckDrawNumberService {
     }
 
     @Cacheable(value = "UserLuckDrawNumber", key = "#result.userId + '_' + #result.activityId + '_' + #result.luckDrawDate", condition = "#result != null")
+    public UserLuckDrawNumber selectByUserIdAndActivityId(Long userId, Long activityId) {
+        return userLuckDrawNumberDao.selectByUserIdAndActivityId(userId, activityId, null);
+    }
+
+    @Cacheable(value = "UserLuckDrawNumber", key = "#result.userId + '_' + #result.activityId + '_' + #result.luckDrawDate", condition = "#result != null")
     public UserLuckDrawNumber toReduceLuckDrawNum(Long userId, Long activityId, Date luckDrawDate) {
         UserLuckDrawNumber userLuckDrawNumber = selectByUserIdAndActivityId(userId, activityId, luckDrawDate);
         userLuckDrawNumber.setUpdatedTime(new Date());
@@ -37,7 +42,7 @@ public class UserLuckDrawNumberService {
     @Cacheable(value = "UserLuckDrawNumber", key = "#result.userId + '_' + #result.activityId + '_' + #result.luckDrawDate", condition = "#result != null")
     @Transactional
     public UserLuckDrawNumber increaseLuckDrawNum(Long userId, Long activityId, Date luckDrawDate) {
-        UserLuckDrawNumber userLuckDrawNumber = selectByUserIdAndActivityId(userId, activityId, luckDrawDate);
+        UserLuckDrawNumber userLuckDrawNumber = selectByUserIdAndActivityId(userId, activityId);
         Date date = new Date();
         if (Objects.isNull(userLuckDrawNumber)) {
             userLuckDrawNumber = new UserLuckDrawNumber();

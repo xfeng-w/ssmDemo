@@ -1,6 +1,7 @@
 package com.demo.vo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class SignInVo implements Serializable {
     private static final long serialVersionUID = -5688278850185823781L;
@@ -21,14 +22,9 @@ public class SignInVo implements Serializable {
     private Integer signInDays;
 
     /**
-     * 连续签到天数
-     */
-    private Integer continuousSignInDays;
-
-    /**
      * 签到日期，逗号分隔
      */
-    private String signInDates;
+    private Date lastSignInDates;
 
     public Long getUserId() {
         return userId;
@@ -54,19 +50,11 @@ public class SignInVo implements Serializable {
         this.signInDays = signInDays;
     }
 
-    public Integer getContinuousSignInDays() {
-        return continuousSignInDays;
+    public Date getLastSignInDates() {
+        return lastSignInDates;
     }
 
-    public void setContinuousSignInDays(Integer continuousSignInDays) {
-        this.continuousSignInDays = continuousSignInDays;
-    }
-
-    public String getSignInDates() {
-        return signInDates;
-    }
-
-    public void setSignInDates(String signInDates) {
-        this.signInDates = signInDates;
+    public void setLastSignInDates(Date lastSignInDates) {
+        this.lastSignInDates = lastSignInDates;
     }
 }
